@@ -1,16 +1,23 @@
-.gradle/\nbuild/\n*.iml\n.idea/\nout/\n.DS_Store\n
-/build/tmp/compileJava/compileTransaction/stash-dir/AbstractExporter.class.uniqueId8
-/build/tmp/compileJava/compileTransaction/stash-dir/Attachment.class.uniqueId14
-/build/tmp/compileJava/compileTransaction/stash-dir/Audio.class.uniqueId3
-/build/tmp/compileJava/compileTransaction/stash-dir/Describe.class.uniqueId6
-/build/tmp/compileJava/compileTransaction/stash-dir/GeoArea.class.uniqueId7
-/build/tmp/compileJava/compileTransaction/stash-dir/GeoNotes.class.uniqueId9
-/build/tmp/compileJava/compileTransaction/stash-dir/GeoPoint.class.uniqueId4
-/build/tmp/compileJava/compileTransaction/stash-dir/JsonExporter.class.uniqueId13
-/build/tmp/compileJava/compileTransaction/stash-dir/Link.class.uniqueId12
-/build/tmp/compileJava/compileTransaction/stash-dir/Note.class.uniqueId2
-/build/tmp/compileJava/compileTransaction/stash-dir/Photo.class.uniqueId5
-/build/tmp/compileJava/compileTransaction/stash-dir/Timeline$Render.class.uniqueId10
-/build/tmp/compileJava/compileTransaction/stash-dir/Timeline.class.uniqueId11
+# Carpetas generadas por Gradle
 .gradle/
 build/
+
+# Archivos del IDE (IntelliJ, Android Studio, etc.)
+.idea/
+*.iml
+out/
+
+# Archivos del sistema
+.DS_Store
+
+# Compilación temporal de Java
+/build/tmp/
+/build/classes/
+/build/generated/
+/build/reports/
+/build/libs/
+/build/distributions/
+/build/dependency-cache/
+/build/outputs/
+/build/test-results/
+/build/tmp/compileJava/
