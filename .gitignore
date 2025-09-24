@@ -1,16 +1,44 @@
-.gradle/\nbuild/\n*.iml\n.idea/\nout/\n.DS_Store\n
-/build/tmp/compileJava/compileTransaction/stash-dir/AbstractExporter.class.uniqueId8
-/build/tmp/compileJava/compileTransaction/stash-dir/Attachment.class.uniqueId14
-/build/tmp/compileJava/compileTransaction/stash-dir/Audio.class.uniqueId3
-/build/tmp/compileJava/compileTransaction/stash-dir/Describe.class.uniqueId6
-/build/tmp/compileJava/compileTransaction/stash-dir/GeoArea.class.uniqueId7
-/build/tmp/compileJava/compileTransaction/stash-dir/GeoNotes.class.uniqueId9
-/build/tmp/compileJava/compileTransaction/stash-dir/GeoPoint.class.uniqueId4
-/build/tmp/compileJava/compileTransaction/stash-dir/JsonExporter.class.uniqueId13
-/build/tmp/compileJava/compileTransaction/stash-dir/Link.class.uniqueId12
-/build/tmp/compileJava/compileTransaction/stash-dir/Note.class.uniqueId2
-/build/tmp/compileJava/compileTransaction/stash-dir/Photo.class.uniqueId5
-/build/tmp/compileJava/compileTransaction/stash-dir/Timeline$Render.class.uniqueId10
-/build/tmp/compileJava/compileTransaction/stash-dir/Timeline.class.uniqueId11
+# 🛠️ Archivos generados por Gradle
 .gradle/
 build/
+!gradle/wrapper/gradle-wrapper.properties  # ⬅️ se permite el wrapper config
+!gradlew
+!gradlew.bat
+
+# 🧠 Archivos del IDE (IntelliJ IDEA)
+.idea/
+*.iml
+out/
+
+# 🧪 Archivos de test temporales
+/test-output/
+*.log
+
+# 📦 Dependencias descargadas (por si usas otros gestores)
+*.jar
+*.war
+*.ear
+
+# 🧹 Archivos del sistema operativo
+.DS_Store
+Thumbs.db
+
+# 🧾 Archivos de configuración personal
+*.swp
+*.swo
+*.bak
+*.tmp
+
+# 🧪 Archivos de compilación temporales
+/build/tmp/
+/build/classes/
+/build/generated/
+/build/reports/
+/build/libs/
+/build/distributions/
+/build/dependency-cache/
+/build/outputs/
+/build/test-results/
+
+# 🧬 Archivos de stash de compilación (como los que mencionaste)
+build/tmp/compileJava/compileTransaction/stash-dir/
