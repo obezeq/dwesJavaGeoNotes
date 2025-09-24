@@ -12,3 +12,5 @@
 /build/tmp/compileJava/compileTransaction/stash-dir/Photo.class.uniqueId5
 /build/tmp/compileJava/compileTransaction/stash-dir/Timeline$Render.class.uniqueId10
 /build/tmp/compileJava/compileTransaction/stash-dir/Timeline.class.uniqueId11
+.gradle/
+build/
