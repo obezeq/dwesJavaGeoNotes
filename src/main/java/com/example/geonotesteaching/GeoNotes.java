@@ -148,7 +148,15 @@ public class GeoNotes {
          * Bucle forEach sobre el Map<Long, Note>.
          * En Kotlin harías algo similar con forEach y String templates.
          */
-        timeline.getNotes().forEach((id, note) -> System.out.printf("ID: %d | Título: %s | Contenido: %s%n", id, note.title(), note.content()));
+        timeline.getNotes().forEach((id, note) -> {
+            var gp = note.location();
+            var region = Match.where(gp); // usamos record patterns
+            var attachmentInfo = (note.attachment() == null)
+                    ? "—"
+                    : Describe.describeAttachment(note.attachment());
+            System.out.printf("ID: %d | %s | %s | loc=%s | adj=%s%n",
+                    id, note.title(), note.content(), region, attachmentInfo);
+        });
     }
 
     private static void filterNotes() {
@@ -160,12 +168,15 @@ public class GeoNotes {
          * Streams (desde Java 8) — muy similares a las funciones de colección en Kotlin.
          * Filtramos por título o contenido y recogemos en una List inmutable (toList() desde Java 16 retorna una lista no modificable).
          */
-        var filtered = timeline.getNotes().values().stream().filter(n -> n.title().contains(keyword) || n.content().contains(keyword)).toList();
+        var filtered = timeline.getNotes().values().stream()
+                .filter(n -> n.title().contains(keyword) || n.content().contains(keyword))
+                .toList();
         if (filtered.isEmpty()) {
             System.out.println("No se encontraron notas con: " + keyword);
             return;
         }
-        filtered.forEach(n -> System.out.printf("ID: %d | %s | %s%n", n.id(), n.title(), n.content()));
+        filtered.forEach(n -> System.out.printf("ID: %d | %s | %s%n",
+                n.id(), n.title(), n.content()));
     }
 
     private static void exportNotesToJson() {
@@ -196,10 +207,20 @@ public class GeoNotes {
          * También aquí vemos la jerarquía sellada (sealed) Attachment con tres records:
          *   Photo, Audio, Link — y cómo se pasan a Note como polimorfismo clásico.
          */
-        timeline.addNote(new Note(noteCounter++, "Cádiz", "Playita", new GeoPoint(36.5297, -6.2927), Instant.now(), new Photo("u", 2000, 1000)));
-        timeline.addNote(new Note(noteCounter++, "Sevilla", "Triana", new GeoPoint(37.3826, -5.9963), Instant.now(), new Audio("a", 320)));
-        timeline.addNote(new Note(noteCounter++, "Córdoba", "Mezquita", new GeoPoint(37.8790, -4.7794), Instant.now(), new Link("http://cordoba", "Oficial")));
-        /*
+        timeline.addNote(new Note(noteCounter++, "Cádiz", "Playita",
+                new GeoPoint(36.5297, -6.2927),
+                Instant.now(),
+                new Photo("u", 2000, 1000)));
+
+        timeline.addNote(new Note(noteCounter++, "Sevilla", "Triana",
+                new GeoPoint(37.3826, -5.9963),
+                Instant.now(),
+                new Audio("a", 320)));
+
+        timeline.addNote(new Note(noteCounter++, "Córdoba", "Mezquita",
+                new GeoPoint(37.8790, -4.7794),
+                Instant.now(),
+                new Link("http://cordoba", "Oficial")));        /*
          * DONDE VER EL RESTO DE NOVEDADES:
          * - Pattern matching para instanceof + switch con guardas 'when': ver Describe.
          * - Record patterns (Java 21): ver Match (desestructurar GeoPoint en switch/if).
