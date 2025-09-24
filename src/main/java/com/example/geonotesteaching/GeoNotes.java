@@ -24,7 +24,7 @@ public class GeoNotes {
      * Timeline tiene una inner class no estática (Render) que sabe exportar el contenido a JSON con Text Blocks.
      * -> OJO: inner class no estática = necesita una instancia externa para crearse (ver exportNotesToJson()).
      */
-    private final static Timeline timeline = new Timeline();
+    private static final Timeline timeline = new Timeline();
 
     /*
      * Scanner para leer del stdin. Mantener uno único y reutilizarlo es buena práctica para la CLI.
@@ -43,7 +43,11 @@ public class GeoNotes {
          * Gradle define una tarea 'examples' que invoca main con el argumento "examples".
          * Útil para mostrar rápidamente la salida JSON sin teclear en la CLI.
          */
-        if (args != null && args.length > 0 && "examples".equalsIgnoreCase(args[0])) { seedExamples(); exportNotesToJson(); return; }
+        if (args != null && args.length > 0 && "examples".equalsIgnoreCase(args[0])) {
+            seedExamples();
+            exportNotesToJson();
+            return;
+        }
         System.out.println("--------------------------------------");
         System.out.println("  📝 Bienvenid@ a la aplicación GeoNotes");
         System.out.println("--------------------------------------");
@@ -97,15 +101,19 @@ public class GeoNotes {
         System.out.println("\n--- Crear una nueva nota ---");
 
         // 'var' (Java 10) para inferencia local: útil para código más legible; en APIs públicas, mejor tipos explícitos.
-        System.out.print("Título: "); var title = scanner.nextLine();
-        System.out.print("Contenido: "); var content = scanner.nextLine();
+        System.out.print("Título: ");
+        var title = scanner.nextLine();
+        System.out.print("Contenido: ");
+        var content = scanner.nextLine();
 
         /*
          * Lectura robusta de números: mejor parsear desde nextLine() para controlar errores y limpieza del buffer.
          * (Si fuese una app real, haríamos bucles hasta entrada válida).
          */
-        System.out.print("Latitud: "); var lat = Double.parseDouble(scanner.nextLine());
-        System.out.print("Longitud: "); var lon = Double.parseDouble(scanner.nextLine());
+        System.out.print("Latitud: ");
+        var lat = Double.parseDouble(scanner.nextLine());
+        System.out.print("Longitud: ");
+        var lon = Double.parseDouble(scanner.nextLine());
         try {
 
             /*
@@ -131,7 +139,10 @@ public class GeoNotes {
 
     private static void listNotes() {
         System.out.println("\n--- Notas disponibles ---");
-        if (timeline.getNotes().isEmpty()) { System.out.println("No hay notas creadas."); return; }
+        if (timeline.getNotes().isEmpty()) {
+            System.out.println("No hay notas creadas.");
+            return;
+        }
 
         /*
          * Bucle forEach sobre el Map<Long, Note>.
@@ -141,7 +152,8 @@ public class GeoNotes {
     }
 
     private static void filterNotes() {
-        System.out.print("\nIntroduce la palabra clave para filtrar: "); var keyword = scanner.nextLine();
+        System.out.print("\nIntroduce la palabra clave para filtrar: ");
+        var keyword = scanner.nextLine();
         System.out.println("\n--- Resultados de búsqueda ---");
 
         /*
@@ -149,7 +161,10 @@ public class GeoNotes {
          * Filtramos por título o contenido y recogemos en una List inmutable (toList() desde Java 16 retorna una lista no modificable).
          */
         var filtered = timeline.getNotes().values().stream().filter(n -> n.title().contains(keyword) || n.content().contains(keyword)).toList();
-        if (filtered.isEmpty()) { System.out.println("No se encontraron notas con: " + keyword); return; }
+        if (filtered.isEmpty()) {
+            System.out.println("No se encontraron notas con: " + keyword);
+            return;
+        }
         filtered.forEach(n -> System.out.printf("ID: %d | %s | %s%n", n.id(), n.title(), n.content()));
     }
 
@@ -162,7 +177,7 @@ public class GeoNotes {
          *
          * Si Render fuera 'static', se instanciaría como 'new Timeline.Render(timeline)' pasando la Timeline explícita.
          */
-        var renderer = timeline.new Render(); //new Timeline().new Render();
+        var renderer = timeline.new Render(); // ¿Por qué esto no funciona new Timeline().new Render();?
 
         /*
          * TEXT BLOCKS (Java 15) — ver Timeline.Render:
