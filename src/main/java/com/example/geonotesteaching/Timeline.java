@@ -16,27 +16,39 @@ final class Timeline {
 
     // Esta clase final genera la salida JSON usando 'text blocks'.
     public final class Render extends AbstractExporter implements Exporter {
-        @Override public String export() {
+        @Override
+        public String export() {
             var notesList = notes.values().stream()
-                // Un 'text block' es una cadena de texto multilinea que no necesita
-                // concatenación ni caracteres de escape para las comillas.
-                .map(note -> """
+                    .map(note -> {
+                        String escapedTitle = note.title().replace("\"", "\\\"");
+                        String escapedContent = note.content().replace("\"", "\\\"");
+                        return """
                         {
                           "id": %d,
                           "title": "%s",
                           "content": "%s",
-                          "location": { "lat": %f, "lon": %f },
+                          "location": {
+                            "lat": %.5f,
+                            "lon": %.5f
+                          },
                           "createdAt": "%s"
                         }
                         """.formatted(
-                            note.id(), note.title(), note.content(),
-                            note.location().lat(), note.location().lon(),
-                            note.createdAt()))
-                .sorted(Comparator.reverseOrder())
-                .collect(Collectors.joining(",\n"));
+                                note.id(), escapedTitle, escapedContent,
+                                note.location().lat(), note.location().lon(),
+                                note.createdAt()
+                        );
+                    })
+                    .sorted(Comparator.reverseOrder())
+                    .collect(Collectors.joining(",\n"));
+
             return """
-                    { "notes": [ %s ] }
-                    """.formatted(notesList);
+                {
+                  "notes": [
+                    %s
+                  ]
+                }
+                """.formatted(notesList);
         }
     }
 }

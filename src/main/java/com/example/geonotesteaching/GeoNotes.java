@@ -73,7 +73,8 @@ public class GeoNotes {
                     case 2 -> listNotes();
                     case 3 -> filterNotes();
                     case 4 -> exportNotesToJson();
-                    case 5 -> running = false;
+                    case 5 -> exportMarkdown();
+                    case 6 -> running = false;
                     default -> System.out.println("❌ Opción no válida. Inténtalo de nuevo.");
                 }
             } catch (NumberFormatException e) {
@@ -93,8 +94,16 @@ public class GeoNotes {
         System.out.println("2. Listar todas las notas");
         System.out.println("3. Filtrar notas por palabra clave");
         System.out.println("4. Exportar notas a JSON (Text Blocks)");
-        System.out.println("5. Salir");
+        System.out.println("5. Exportar Markdown");
+        System.out.println("6. Salir");
         System.out.print("Elige una opción: ");
+    }
+
+    private static void exportMarkdown() {
+        MarkdownExporter exporter = new MarkdownExporter(timeline);
+        String markdown = exporter.export();
+        System.out.println("\n--- Exportando notas a Markdown ---");
+        System.out.println(markdown);
     }
 
     private static void createNote() {
