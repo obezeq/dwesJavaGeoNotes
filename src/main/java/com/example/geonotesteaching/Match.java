@@ -6,4 +6,12 @@ final class Match {
     public static boolean isInArea(GeoPoint p, GeoArea a) {
         return p.lat() >= a.topLeft().lat() && p.lat() <= a.bottomRight().lat() && p.lon() >= a.topLeft().lon() && p.lon() <= a.bottomRight().lon();
     }
+    public static String where(GeoPoint p) {
+        return switch (p) {
+            case GeoPoint(double lat, double lon) when lat == 0 && lon == 0 -> "ORIGIN";
+            case GeoPoint(double lat, double lon) when lat == 0 -> "Equator";
+            case GeoPoint(double lat, double lon) when lon == 0 -> "Greenwich";
+            case GeoPoint(double lat, double lon) -> "(" + lat + "," + lon + ")";
+        };
+    }
 }

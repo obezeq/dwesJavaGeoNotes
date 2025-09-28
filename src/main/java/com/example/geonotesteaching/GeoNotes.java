@@ -76,7 +76,8 @@ public class GeoNotes {
                     case 5 -> exportMarkdown();
                     case 6 -> latest();
                     case 7 -> search();
-                    case 8 -> running = false;
+                    case 8 -> consultLocation();
+                    case 9 -> running = false;
                     default -> System.out.println("❌ Opción no válida. Inténtalo de nuevo.");
                 }
             } catch (NumberFormatException e) {
@@ -88,6 +89,41 @@ public class GeoNotes {
             }
         }
         System.out.println("¡Gracias por usar GeoNotes! 👋");
+    }
+
+    private static void consultLocation() {
+
+        System.out.println("---------------------------------");
+        System.out.println("     CONSULTAR LA UBICACIÓN      ");
+        System.out.println("---------------------------------\n");
+
+        boolean running = true;
+
+        while (running) {
+            try {
+                System.out.println("[+] Introduce la lat: ");
+                double lat = scanner.nextDouble();
+                scanner.nextLine(); // Limpio el buffer '\n'
+
+                System.out.println("[+] Introduce la lon: ");
+                double lon = scanner.nextDouble();
+                scanner.nextLine(); // Limpio el buffer '\n'
+
+                GeoPoint point = new GeoPoint(lat, lon);
+                String whereResult = Match.where(point);
+
+                System.out.println("[+] La localización (" + lat + "," + lon + ") es: " + whereResult);
+
+                System.out.println("Pulsa ENTER para continuar...");
+                scanner.nextLine();
+                running = false;
+
+            } catch (NumberFormatException e) {
+                System.out.println("[-] ERROR: Tienes que ingresar un valor número para la latitud y la longitud!");
+            } catch (Exception e) {
+                System.out.println("[-] ERROR: " + e.getMessage());
+            }
+        }
     }
 
     private  static  void latest(){
@@ -106,16 +142,19 @@ public class GeoNotes {
     }
 
     private static void printMenu() {
-        System.out.println("\n--- Menú ---");
-        System.out.println("1. Crear una nueva nota");
-        System.out.println("2. Listar todas las notas");
-        System.out.println("3. Filtrar notas por palabra clave");
-        System.out.println("4. Exportar notas a JSON (Text Blocks)");
-        System.out.println("5. Exportar Markdown");
-        System.out.println("6. Listar últimas N");
-        System.out.println("7. Buscar avanzada");
-        System.out.println("8. Salir");
-        System.out.print("Elige una opción: ");
+        System.out.println("\n---------------------------------");
+        System.out.println("               MENU              ");
+        System.out.println("---------------------------------");
+        System.out.println("[1] Crear una nueva nota");
+        System.out.println("[2] Listar todas las notas");
+        System.out.println("[3] Filtrar notas por palabra clave");
+        System.out.println("[4] Exportar notas a JSON (Text Blocks)");
+        System.out.println("[5] Exportar Markdown");
+        System.out.println("[6] Listar últimas N");
+        System.out.println("[7] Buscar avanzada");
+        System.out.println("[8] Consultar ubicacion");
+        System.out.println("[9] Salir");
+        System.out.print("\n[+] Elige una opción: ");
     }
 
     private static void exportMarkdown() {
