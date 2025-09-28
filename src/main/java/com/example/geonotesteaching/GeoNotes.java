@@ -74,7 +74,9 @@ public class GeoNotes {
                     case 3 -> filterNotes();
                     case 4 -> exportNotesToJson();
                     case 5 -> exportMarkdown();
-                    case 6 -> running = false;
+                    case 6 -> latest();
+                    case 7 -> search();
+                    case 8 -> running = false;
                     default -> System.out.println("❌ Opción no válida. Inténtalo de nuevo.");
                 }
             } catch (NumberFormatException e) {
@@ -88,6 +90,21 @@ public class GeoNotes {
         System.out.println("¡Gracias por usar GeoNotes! 👋");
     }
 
+    private  static  void latest(){
+        int n = 0;
+        boolean running = true;
+        while (running) {
+            System.out.println("Introduce el número de notas que desea listar:");
+            n = scanner.nextInt();
+            if (n <= timeline.getNotes().size()) {
+                timeline.latest(n).forEach(System.out::println);
+                running = false;
+            }else {
+                System.out.println("El valor no es valido.");
+            }
+        }
+    }
+
     private static void printMenu() {
         System.out.println("\n--- Menú ---");
         System.out.println("1. Crear una nueva nota");
@@ -95,7 +112,9 @@ public class GeoNotes {
         System.out.println("3. Filtrar notas por palabra clave");
         System.out.println("4. Exportar notas a JSON (Text Blocks)");
         System.out.println("5. Exportar Markdown");
-        System.out.println("6. Salir");
+        System.out.println("6. Listar últimas N");
+        System.out.println("7. Buscar avanzada");
+        System.out.println("8. Salir");
         System.out.print("Elige una opción: ");
     }
 
@@ -104,6 +123,37 @@ public class GeoNotes {
         String markdown = exporter.export();
         System.out.println("\n--- Exportando notas a Markdown ---");
         System.out.println(markdown);
+    }
+
+    private static void search(){
+        String search = "";
+        String input = "";
+        System.out.println("buscar por rango o palabra: ");
+        search = scanner.nextLine().trim();
+        if (search.equals("rango")){
+
+            System.out.println("Introduce lat superior (topLeft):");
+            double topLat = Double.parseDouble(scanner.nextLine());
+            System.out.println("Introduce lon izquierda (topLeft):");
+            double leftLon = Double.parseDouble(scanner.nextLine());
+            System.out.println("Introduce lat inferior (bottomRight):");
+            double bottomLat = Double.parseDouble(scanner.nextLine());
+            System.out.println("Introduce lon derecha (bottomRight):");
+            double rightLon = Double.parseDouble(scanner.nextLine());
+
+            GeoArea area = new GeoArea(new GeoPoint(topLat, leftLon), new GeoPoint(bottomLat, rightLon));
+
+            java.util.List<String> results = timeline.searchByArea(area);
+
+            for (String noteStr : results) {
+                System.out.println(noteStr);
+            }
+
+        }else if (search.equals("palabra")){
+            System.out.println("Introduce el titulo o contenido: ");
+            input = scanner.nextLine().trim();
+            timeline.searchName(input).forEach(System.out::println);
+        }
     }
 
     private static void createNote() {
