@@ -1,8 +1,6 @@
 package com.example.geonotesteaching;
 
-import java.util.Comparator;
-import java.util.LinkedHashMap;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 // La clase 'Timeline' usa un 'SequencedMap' para mantener las notas en orden de inserción.
 // A diferencia de un HashMap, un 'SequencedMap' garantiza el orden y permite acceder
@@ -38,5 +36,42 @@ final class Timeline {
                     { "notes": [ %s ] }
                     """.formatted(notesList);
         }
+    }
+
+    public java.util.List<String> searchName(String input) {
+        List<String> results = new ArrayList<>();
+        for (Note note : getNotes().values()) {
+            if (note.title().contains(input) || note.content().contains(input)) {
+                results.add(String.format("ID:%d | Título: %s | Contenido: %s",
+                        note.id(), note.title(), note.content()));
+            }
+        }
+        return results;
+    }
+
+    public java.util.List<String> searchByArea(GeoArea area) {
+        java.util.List<String> results = new java.util.ArrayList<>();
+
+        for (Note note : getNotes().values()) {
+            if (Match.isInArea(note.location(), area)) {
+                results.add(String.format(
+                        "ID:%d | Título: %s | Contenido: %s ",
+                        note.id(), note.title(), note.content()));
+            }
+        }
+
+        return results;
+    }
+
+    public java.util.List<String> latest(int n){
+        var allNotes = new ArrayList<>(getNotes().values());
+        if (n > allNotes.size()) n = allNotes.size();
+        if (n <= 0) return new ArrayList<>();
+        return allNotes.subList(allNotes.size() - n, allNotes.size())
+                .stream()
+                .sorted((a, b) -> b.createdAt().compareTo(a.createdAt()))
+                .map(note -> String.format("ID:%d | Título: %s | Contenido: %s",
+                        note.id(), note.title(), note.content()))
+                .collect(Collectors.toList());
     }
 }
