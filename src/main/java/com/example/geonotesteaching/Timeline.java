@@ -20,6 +20,7 @@ final class Timeline {
                     .map(note -> {
                         String escapedTitle = note.title().replace("\"", "\\\"");
                         String escapedContent = note.content().replace("\"", "\\\"");
+                        String attachmentJson = formatAttachmentJson(note.attachment());
                         return """
                         {
                           "id": %d,
@@ -29,12 +30,14 @@ final class Timeline {
                             "lat": %.5f,
                             "lon": %.5f
                           },
-                          "createdAt": "%s"
+                          "createdAt": "%s",
+                          "attachment": %s
                         }
                         """.formatted(
                                 note.id(), escapedTitle, escapedContent,
                                 note.location().lat(), note.location().lon(),
-                                note.createdAt()
+                                note.createdAt(),
+                                attachmentJson
                         );
                     })
                     .sorted(Comparator.reverseOrder())
@@ -48,6 +51,34 @@ final class Timeline {
                 }
                 """.formatted(notesList);
         }
+    }
+
+    private String formatAttachmentJson(Attachment attachment) {
+        if (attachment == null) {
+            return "null";
+        }
+
+        return switch (attachment) {
+            case Photo p ->
+                String.format("""
+                        { "type": "photo", "url": "%s", "width": %d, "height": %d }""",
+                        p.url(), p.width(), p.height());
+            case Audio a ->
+                String.format("""
+                        { "type": "audio", "url": "%s", "duration": %d }""",
+                        a.url(), a, a.duration());
+            case Link l -> {
+                String displayText = (l.label() == null || l.label().isEmpty()) ? l.url() : l.label();
+                yield String.format("""
+                        { "type": "link", "url": "%s", "label": "%s" }""",
+                        l.url(), displayText);
+            }
+
+            case Video v ->
+                String.format("""
+                        { "type": "video", "url": "%s", "width": %d, "height": %d, "seconds": %d }""",
+                        v.url(), v.width(), v.height(), v.seconds());
+        };
     }
 
     public java.util.List<String> searchName(String input) {
