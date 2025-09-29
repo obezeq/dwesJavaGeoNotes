@@ -78,7 +78,8 @@ public class GeoNotes {
                     case 6 -> latest();
                     case 7 -> search();
                     case 8 -> consultLocation();
-                    case 9 -> running = false;
+                    case 9 -> listNotesReversed();
+                    case 10 -> running = false;
                     default -> System.out.println("❌ Opción no válida. Inténtalo de nuevo.");
                 }
             } catch (NumberFormatException e) {
@@ -90,6 +91,23 @@ public class GeoNotes {
             }
         }
         System.out.println("¡Gracias por usar GeoNotes! 👋");
+    }
+
+    private static void listNotesReversed() {
+
+        System.out.println("---------------------------------");
+        System.out.println("     LISTAR NOTAS (reversed)     ");
+        System.out.println("---------------------------------");
+
+        if (timeline.getNotes().isEmpty()) {
+            System.out.println("No hay notas que mostrar.");
+            return;
+        }
+
+        timeline.reversed().forEach(note ->
+                System.out.printf("ID: %d | Titulo: %s | Contenido: %s%n",
+                        note.id(), note.title(), note.content())
+        );
     }
 
     private static void consultLocation() {
@@ -163,7 +181,8 @@ public class GeoNotes {
         System.out.println("[6] Listar últimas N");
         System.out.println("[7] Buscar avanzada");
         System.out.println("[8] Consultar ubicacion");
-        System.out.println("[9] Salir");
+        System.out.println("[9] Listar notes reversed");
+        System.out.println("[10] Salir");
         System.out.print("\n[+] Elige una opción: ");
     }
 
