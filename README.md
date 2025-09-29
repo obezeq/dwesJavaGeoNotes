@@ -22,10 +22,12 @@ Incluye Gradle Wrapper (scripts) para facilitar la ejecución.
    - Los records en java 16+ me ahorran escribir los getters, equals, hashCode, y toString, debido a que java te lo hace automaticamente.
    - Tambien son inmutables por defecto, lo cual esta muy bien para evitar cambios accidentales.
    - Java VS Kotlin: Kotlin tiene una data class que hace lo mismo pero puedes usar var si necesitas mutabilidad
+
 3. **SequencedMap (Java 21)**
    - Usamos el SequencedMap porque ofrece buenas practicas al mantener el orden de insercion y tiene el metodo .reserved().
    - Es mas moderno que usar LinkedHashMap normal.
    - Java VS Kotlin: en kotlin no tiene SequencedMap especifico pero con extension functions se podria hacer lor mismo realmente.
+   
 4. **Pattern Matching en Switch**
    - El switch moderno de java 21 con el mattern matching hace el codigo mas limpio
    - En vez de poner un monton de if (x instanceof Photo), simplemente lo que hago es poner un case Photo p -> y ya está.

@@ -1,4 +1,6 @@
-package com.example.geonotesteaching;
+package com.example.geonotesteaching.model;
+
+import com.example.geonotesteaching.Video;
 
 // Una 'sealed interface' permite controlar qué clases o records pueden implementarla.
 // Esto es útil para modelar jerarquías cerradas y seguras.

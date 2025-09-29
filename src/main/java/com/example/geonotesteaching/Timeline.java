@@ -1,5 +1,7 @@
 package com.example.geonotesteaching;
 
+import com.example.geonotesteaching.model.*;
+
 import java.util.*;
 import java.util.stream.Collectors;
 // La clase 'Timeline' usa un 'SequencedMap' para mantener las notas en orden de inserción.

@@ -1,5 +1,10 @@
 package com.example.geonotesteaching;
 
+import com.example.geonotesteaching.model.Attachment;
+import com.example.geonotesteaching.model.Audio;
+import com.example.geonotesteaching.model.Link;
+import com.example.geonotesteaching.model.Photo;
+
 import java.util.stream.Collectors;
 
 public final class MarkdownExporter implements Exporter {
