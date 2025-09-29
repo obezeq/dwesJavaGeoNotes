@@ -10,6 +10,17 @@ Incluye Gradle Wrapper (scripts) para facilitar la ejecución.
   ./gradlew run
   ./gradlew examples
   ```
+
+## Ejercicios hechos
+
+**Hemos realizado todos los ejercicios:**
+- Bloque A
+- Bloque B
+- Bloque C
+- Bloque D
+- Bloque E
+- Bloque F
+- Bloque G
   
 ## Notas sobre decisiones de diseño y Java vs Kotlin
 
