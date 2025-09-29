@@ -1,6 +1,7 @@
 package com.example.geonotesteaching;
 
 import java.time.Instant;
+import java.util.List;
 import java.util.Scanner;
 
 /*
@@ -102,12 +103,10 @@ public class GeoNotes {
         while (running) {
             try {
                 System.out.println("[+] Introduce la lat: ");
-                double lat = scanner.nextDouble();
-                scanner.nextLine(); // Limpio el buffer '\n'
+                double lat = Double.parseDouble(scanner.nextLine().trim());
 
                 System.out.println("[+] Introduce la lon: ");
-                double lon = scanner.nextDouble();
-                scanner.nextLine(); // Limpio el buffer '\n'
+                double lon = Double.parseDouble(scanner.nextLine().trim());
 
                 GeoPoint point = new GeoPoint(lat, lon);
                 String whereResult = Match.where(point);
@@ -126,17 +125,28 @@ public class GeoNotes {
         }
     }
 
-    private  static  void latest(){
-        int n = 0;
+    private static void latest(){
+
+        int n;
         boolean running = true;
+
         while (running) {
-            System.out.println("Introduce el número de notas que desea listar:");
-            n = scanner.nextInt();
-            if (n <= timeline.getNotes().size()) {
-                timeline.latest(n).forEach(System.out::println);
-                running = false;
-            }else {
-                System.out.println("El valor no es valido.");
+            try {
+
+                System.out.println("Introduce el número de notas que desea listar:");
+                n = Integer.parseInt(scanner.nextLine().trim());
+
+                if (n <= timeline.getNotes().size()) {
+                    timeline.latest(n).forEach(System.out::println);
+                    running = false;
+                } else {
+                    throw new IllegalArgumentException("El número de notas que desea listar no es válido.");
+                }
+
+            } catch (NumberFormatException e) {
+                System.out.println("[-] ERROR: Tienes que introducir un número");
+            } catch (Exception e) {
+                System.out.println("[-] ERROR: " + e.getMessage());
             }
         }
     }
@@ -165,34 +175,51 @@ public class GeoNotes {
     }
 
     private static void search(){
-        String search = "";
-        String input = "";
-        System.out.println("buscar por rango o palabra: ");
-        search = scanner.nextLine().trim();
-        if (search.equals("rango")){
+        String search;
+        String input;
 
-            System.out.println("Introduce lat superior (topLeft):");
-            double topLat = Double.parseDouble(scanner.nextLine());
-            System.out.println("Introduce lon izquierda (topLeft):");
-            double leftLon = Double.parseDouble(scanner.nextLine());
-            System.out.println("Introduce lat inferior (bottomRight):");
-            double bottomLat = Double.parseDouble(scanner.nextLine());
-            System.out.println("Introduce lon derecha (bottomRight):");
-            double rightLon = Double.parseDouble(scanner.nextLine());
+        try {
 
-            GeoArea area = new GeoArea(new GeoPoint(topLat, leftLon), new GeoPoint(bottomLat, rightLon));
+            System.out.println("[+] Buscar por rango o palabra: ");
+            search = scanner.nextLine().trim();
 
-            java.util.List<String> results = timeline.searchByArea(area);
+            if (search.equalsIgnoreCase("rango")) {
 
-            for (String noteStr : results) {
-                System.out.println(noteStr);
+                System.out.println("Introduce lat superior (topLeft):");
+                double topLat = Double.parseDouble(scanner.nextLine());
+
+                System.out.println("Introduce lon izquierda (topLeft):");
+                double leftLon = Double.parseDouble(scanner.nextLine());
+
+                System.out.println("Introduce lat inferior (bottomRight):");
+                double bottomLat = Double.parseDouble(scanner.nextLine());
+
+                System.out.println("Introduce lon derecha (bottomRight):");
+                double rightLon = Double.parseDouble(scanner.nextLine());
+
+                GeoArea area = new GeoArea(new GeoPoint(topLat, leftLon), new GeoPoint(bottomLat, rightLon));
+
+                List<String> results = timeline.searchByArea(area);
+
+                for (String noteStr : results) {
+                    System.out.println(noteStr);
+                }
+
+            } else if (search.equalsIgnoreCase("palabra")){
+
+                System.out.println("Introduce el titulo o contenido: ");
+                input = scanner.nextLine().trim();
+                timeline.searchName(input).forEach(System.out::println);
+
+            } else {
+                throw new IllegalArgumentException("No has introducido una opción correcta");
             }
 
-        }else if (search.equals("palabra")){
-            System.out.println("Introduce el titulo o contenido: ");
-            input = scanner.nextLine().trim();
-            timeline.searchName(input).forEach(System.out::println);
+        } catch (Exception e) {
+            System.out.println("[-] ERROR: " + e.getMessage());
         }
+
+
     }
 
     private static void createNote() {
