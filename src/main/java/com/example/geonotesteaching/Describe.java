@@ -1,9 +1,6 @@
 package com.example.geonotesteaching;
 
-import com.example.geonotesteaching.model.Attachment;
-import com.example.geonotesteaching.model.Audio;
-import com.example.geonotesteaching.model.Link;
-import com.example.geonotesteaching.model.Photo;
+import com.example.geonotesteaching.model.*;
 
 // Esta clase usa 'switch expressions' y 'pattern matching' para describir un 'Attachment'.
 // Los 'switch expressions' permiten que el 'switch' sea una expresión que devuelve un valor.
